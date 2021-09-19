@@ -66,3 +66,11 @@ void removeSpacesAtBegin(std::string &str) {
     }
     str.erase(0, i);
 }
+
+bool areEqual(const std::tm &obj, const std::tm &other) {
+
+    return (obj.tm_hour == other.tm_hour && obj.tm_isdst == other.tm_isdst && obj.tm_mday == other.tm_mday
+            && obj.tm_min == other.tm_min && obj.tm_mon == other.tm_mon && obj.tm_sec == other.tm_sec && obj.tm_wday == obj.tm_wday
+            && obj.tm_yday == other.tm_yday && obj.tm_year == other.tm_year);
+}
+

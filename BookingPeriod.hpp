@@ -7,6 +7,8 @@
 #include <vector>
 
 #include "foos.h"
+//#include "Room.hpp"
+//#include "HotelStay.hpp"
 
 class bookingPeriod {
 
@@ -25,11 +27,15 @@ public:
     time_t getCheckinEpoch() const;
     time_t getCheckoutEpoch() const;
                     
+    //size_t getCountOfOverlappingPeriods(const Room &obj) const;
+    //std::vector<HotelStay> getOverlappingStays(const Room &obj) const;
 
     std::tm getCheckinDate() const;
     std::tm getCheckoutDate() const;
     bool overlap(const bookingPeriod &other) const;
     size_t getPeriodDuration() const;
+
+    bool operator==(const bookingPeriod &obj) const;
     
     friend std::ostream& operator<<(std::ostream &os, const bookingPeriod &obj);
     friend std::istream& operator>>(std::istream &is, bookingPeriod &obj);

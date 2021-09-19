@@ -1,12 +1,24 @@
 all: main.exe
 
-main.exe: Hotel.o Room.o UI.o main.o BookingPeriod.o HotelStay.o foos.o Checkin.o
+utest: Hotel.o Room.o UI.o utest.o BookingPeriod.o HotelStay.o foos.o CheckIn.o catch_amalgamated.o
 
-	g++ -o main Hotel.o Room.o UI.o main.o BookingPeriod.o HotelStay.o foos.o Checkin.o
+	g++ -o utest Hotel.o Room.o UI.o utest.o BookingPeriod.o HotelStay.o foos.o CheckIn.o catch_amalgamated.o
 
-Checkin.o: Checkin.cpp
+main.exe: Hotel.o Room.o UI.o main.o BookingPeriod.o HotelStay.o foos.o CheckIn.o
 
-	g++ -c Checkin.cpp
+	g++ -o main Hotel.o Room.o UI.o main.o BookingPeriod.o HotelStay.o foos.o CheckIn.o
+
+catch_amalgamated.o: catch_amalgamated.cpp
+
+	g++ -c catch_amalgamated.cpp
+
+utest.o: utest.cpp
+
+	g++ -c utest.cpp
+
+CheckIn.o: CheckIn.cpp
+
+	g++ -c CheckIn.cpp
 
 foos.o: foos.cpp
 

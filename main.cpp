@@ -60,30 +60,9 @@ int main() {
     file >> ses;
 
     file.close();
-
-    /* std::ofstream ff;
-    ff.open("Hotel.fmi");
-    ff << ses.hotel;
-
-    ff.close(); */
+    //std::cout << ses.hotel.getVectorOfRooms()[1]->getStaysVector()[0].getRoomNumber(); // exp 106
+    
 
     ses.CommandListener();
-
-    
-    /* ses.hotel.addRoom(rm);
-    ses.hotel.addRoom(r2); */
-    //ses.CommandListener();
-    
-
-    /* std::string c = "simp 3";
-
-    std::vector<std::string> v = splitCommandArgs(c);
-
-    for (std::string s : v) {
-        std::cout << s << ' ';
-    } */
-
-    /* bookingPeriod bbb(2021, 8, 15, 2021, 8, 22);
-    std::cout << std::put_time(&bbb.checkIn, "%Y-%m-%d"); */
     return 0;
 }

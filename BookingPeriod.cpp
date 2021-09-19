@@ -73,6 +73,10 @@ bool bookingPeriod::overlap(const bookingPeriod &other) const {
     return false;
 }
 
+bool bookingPeriod::operator==(const bookingPeriod &obj) const {
+    return (areEqual(checkIn, obj.checkIn) && areEqual(checkOut, obj.checkOut));
+}
+
 size_t bookingPeriod::getPeriodDuration() const {
     int days = checkOut.tm_mday - checkIn.tm_mday;
     if (days < 0) {
@@ -115,6 +119,29 @@ int bookingPeriod::getDaysOfIntersectionWith(const bookingPeriod &bp) {
     }
     return days;
 }
+/* 
+size_t bookingPeriod::getCountOfOverlappingPeriods(const Room &obj) const {
+
+    size_t count = 0;
+    for (HotelStay hs : obj.getStaysVector()) {
+
+        if (this->overlap(hs.getBookingPeriod())) count++;
+    }
+
+    return count;
+} */
+
+/* std::vector<HotelStay> bookingPeriod::getOverlappingStays(const Room &obj) const {
+
+    std::vector<HotelStay> hss;
+
+    for (HotelStay hs : obj.getStaysVector()) {
+
+        if (this->overlap(hs.getBookingPeriod())) hss.push_back(hs);
+    }
+
+    return hss;
+} */   
 
 std::ostream& operator<<(std::ostream &os, const bookingPeriod &obj) {
     os << std::put_time(&obj.checkIn,"%Y-%m-%d") << '/' << std::put_time(&obj.checkOut,"%Y-%m-%d");

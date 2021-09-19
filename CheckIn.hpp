@@ -2,6 +2,7 @@
 #define CHECKIN_HPP
 
 #include "Command.hpp"
+#include "foos.h"
 
 class CheckIn : public Command {
 

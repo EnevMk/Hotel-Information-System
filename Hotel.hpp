@@ -19,6 +19,9 @@ public:
     size_t getBedsByRoomNum(size_t num_) const;
     friend std::ostream& operator<<(std::ostream& os, const Hotel &obj);
     friend std::istream& operator>>(std::istream& is, Hotel &obj);
+
+    
+
     ~Hotel();
 };
 

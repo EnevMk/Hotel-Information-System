@@ -11,15 +11,18 @@
 #include "HotelStay.hpp"
 #include "Command.hpp"
 #include "CheckIn.hpp"
+#include "Room.hpp"
+#include "BookingPeriod.hpp"
+#include "Tuple.hpp"
 
 class UI {
     
     std::vector<Command*> commands;
     std::ofstream database;
-    Hotel hotel;
+    
     
 public:
-    
+    Hotel hotel;
     
     UI();
     void CommandListener();
@@ -27,7 +30,10 @@ public:
     void Report();
     std::vector<const Room*> Availability();
     friend std::istream& operator>>(std::istream &is, UI &obj);
-    
+    const Room* findBeds(size_t beds, bookingPeriod bp);
+    void UrgentBedFinder(size_t beds, bookingPeriod bp, std::vector<Tuple<HotelStay, size_t>> &roomSwaps, const HotelStay &obj);
+    std::vector<Tuple<HotelStay, size_t>> urgentFind(size_t beds, bookingPeriod bp);
+    //void moveHotelstayToRoom(Room *current, const HotelStay *ptr, Room *newr);
 };
 
 #endif

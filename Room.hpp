@@ -14,7 +14,7 @@ class Room {
 private:
     unsigned int number;
     unsigned int bedCount;
-    std::vector<bookingPeriod> bookedDates;
+    //std::vector<bookingPeriod> bookedDates;
     std::vector<HotelStay> stays;
 
 public:
@@ -26,7 +26,12 @@ public:
     size_t getRoomNumber() const;
     size_t getBedCount() const;
     const std::vector<HotelStay>& getStaysVector() const;
+    std::vector<HotelStay>& getStaysVector();
     
+    void moveHotelstayToRoom(const HotelStay *ptr, Room *r);
+    size_t getCountOfOverlappingPeriods(const bookingPeriod &r) const;
+    std::vector<HotelStay> getOverlappingStays(const bookingPeriod &r) const;
+
     void reserve(/* bookingPeriod bp */ HotelStay hs);
     friend std::ostream& operator<<(std::ostream &os, const Room &obj);
     friend std::istream& operator>>(std::istream &is, Room &obj);

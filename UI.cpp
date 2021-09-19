@@ -29,6 +29,7 @@ void UI::CommandListener() {
         if (cmd == "checkin") {
             Checkin();
         }
+        
         else if (cmd == "availability") {
             std::vector<const Room*> freeRooms = Availability();
             std::cout<< "free rooms:\n";
@@ -40,7 +41,129 @@ void UI::CommandListener() {
         else if (cmd == "report") {
             Report();
         }
+
+        else if (cmd == "find") {
+            size_t beds;
+            bookingPeriod bp;
+
+            std::cin >> beds >> bp;
+            const Room* ptr = findBeds(beds, bp);
+
+            if (ptr != nullptr) std::cout << "Room " << ptr->getRoomNumber() << " with " << ptr->getBedCount() << " is available.\n";
+            else {
+                std::cout << "No suitable Room found\n\n";
+            }
+        }
+
+        else if (cmd == "find!") {
+
+            size_t beds;
+            bookingPeriod bp;
+
+            std::cin >> beds >> bp;
+
+            std::vector<Tuple<HotelStay, size_t>> rp = urgentFind(beds, bp);
+            //std::cout << rp.size();
+            /* for (Tuple<HotelStay, size_t> t : rp) {
+
+                std::cout << "\nGuests from room " << t.getData1().getRoomNumber() << " with booking period "
+                          << t.getData1().getBookingPeriod() << " may be moved to room" << t.getData2() << '\n';
+            } */
+
+            for (int i = 0 ; i < rp.size(); ++i) {
+
+                std::cout << "\nGuests from room " << rp[i].getData1().getRoomNumber() /* t.getData1().getNote() */ << " with booking period "
+                          << rp[i].getData1().getBookingPeriod() << " may be moved to room" << rp[i].getData2() << '\n';
+            }
+        }
     }
+}
+
+
+
+void UI::UrgentBedFinder(size_t beds, bookingPeriod bp, std::vector<Tuple<HotelStay, size_t>> &roomSwaps, const HotelStay &obj) {
+    //std::cout << roomSwaps.size() << '\n';
+    if (roomSwaps.size() > 3) throw "Accomodation not possible";
+
+    const Room *suitableRoom = nullptr;
+    std::vector<HotelStay> hss;
+
+    for (Room *r : this->hotel.getVectorOfRooms()) {
+        
+        int bedCount = r->getBedCount();
+        if (bedCount >= beds) {
+
+            size_t numberOfBookings = r->getCountOfOverlappingPeriods(bp);
+            if (numberOfBookings > 2) continue;
+
+            if (suitableRoom == nullptr || bedCount < suitableRoom->getBedCount()) {
+
+                bool freeBeds = true;
+                std::vector<HotelStay> tempHss = r->getOverlappingStays(bp);
+
+                for (int i = 0; i < numberOfBookings; ++i) {
+                    
+                    if (tempHss[i].getGuestsCount() == bedCount) freeBeds = false;
+                }
+
+                if (freeBeds) {
+                    hss = tempHss;
+                    suitableRoom = r;
+                    //std::cout << "namerena\n";
+                }
+            }
+        }
+    }
+    //obj.setRoomNum(suitableRoom->getRoomNumber());
+    roomSwaps.push_back(Tuple<HotelStay, size_t>(obj, suitableRoom->getRoomNumber()));
+
+    
+    for (int i = 0; i < hss.size(); ++i) {
+        //std::cout << hss[i].getRoomNumber() << '\n';
+        UrgentBedFinder(hss[i].getGuestsCount(), hss[i].getBookingPeriod(), roomSwaps, hss[i]);
+    }   
+
+    /* if (hss.size() == 0) {
+        //std::cout << "goto";
+    } */
+
+}
+
+std::vector<Tuple<HotelStay, size_t>> UI::urgentFind(size_t beds, bookingPeriod bp) {
+
+    //CATCH !!!
+
+    HotelStay urgent(0, beds, bp, "urgent accomodation");
+    std::vector<Tuple<HotelStay, size_t>> replacements;
+
+    try {
+        UrgentBedFinder(beds, bp, replacements, urgent);
+    }
+    catch (const char *s) {
+        std::cout << s << '\n';
+    }
+    
+    
+    return replacements;
+
+}
+
+const Room* UI::findBeds(size_t beds, bookingPeriod bp) {
+
+    const Room* suitableRoom = nullptr;
+    
+    for (Room *r : this->hotel.getVectorOfRooms()) {
+        
+        
+        if (r->getBedCount() >= beds && r->isFree(bp)) {
+
+            if (suitableRoom == nullptr || r->getBedCount() < suitableRoom->getBedCount()) {
+                suitableRoom = r;
+            }
+        }
+    }
+
+    return suitableRoom;
 }
 
 void UI::Report() {
