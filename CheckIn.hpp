@@ -1,10 +1,10 @@
 #ifndef CHECKIN_HPP
 #define CHECKIN_HPP
 
-#include "Command.hpp"
+#include "BookingPeriod.hpp"
 #include "foos.h"
 
-class CheckIn : public Command {
+class CheckIn {
 
 private:
     size_t roomNum;
@@ -20,11 +20,6 @@ public:
     size_t getGuestsCount() const;
 
     void setGuestsCount(const size_t n);
-
-    bool execute() {
-
-        return true;
-    }
     
     bool execute(size_t room_, size_t year1, size_t month1, size_t day1, size_t year2, size_t month2, size_t day2,
                  const std::string &note_)

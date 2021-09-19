@@ -9,7 +9,6 @@
 #include "foos.h"
 #include "Hotel.hpp"
 #include "HotelStay.hpp"
-#include "Command.hpp"
 #include "CheckIn.hpp"
 #include "Room.hpp"
 #include "BookingPeriod.hpp"
@@ -17,7 +16,7 @@
 
 class UI {
     
-    std::vector<Command*> commands;
+    
     std::ofstream database;
     
     

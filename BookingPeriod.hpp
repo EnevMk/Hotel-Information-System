@@ -7,8 +7,6 @@
 #include <vector>
 
 #include "foos.h"
-//#include "Room.hpp"
-//#include "HotelStay.hpp"
 
 class bookingPeriod {
 
